@@ -6,15 +6,15 @@ pipeline {
     }
 
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('shafeeq2804-dockerhub')
-        DOCKER_IMAGE = "shafeeq2804/capstone-node-project"
+        DOCKERHUB_CREDENTIALS = credentials('siddarthan5-dockerhub')
+        DOCKER_IMAGE = "siddarthan5/capstone-node-project-final"
         DOCKER_TAG = "latest"
     }
 
     stages {
         stage('Checkout') {
             steps {
-                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Siddarthan999/Guvi-Capstone-Project-9.git']])
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/ShafeeqAhamedS/guvi-capstone.git']])
             }
         }
         stage('Build App') {
