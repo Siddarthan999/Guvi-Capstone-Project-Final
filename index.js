@@ -18,17 +18,30 @@ app.get('/ready', function (req, res) {
 });
 
 let server;
+let port = process.env.PORT || 3000;
 
 function startServer(callback) {
-    server = app.listen(process.env.PORT || 3000, callback);
+    server = app.listen(port, () => {
+        console.log('Server is running on port', port);
+        if (callback) callback();  // Callback is used for testing
+    });
 }
 
 function closeServer(callback) {
-    server.close(callback);
+    if (server) {
+        server.close(callback);
+    } else {
+        callback();
+    }
 }
 
-startServer(() => {
-    console.log('Server is running on port', process.env.PORT || 3000);
-});
+function setPort(newPort) {
+    port = newPort;
+}
 
-module.exports = { app, startServer, closeServer };
+// Start server only if not in test mode
+if (process.env.NODE_ENV !== 'test') {
+    startServer();
+}
+
+module.exports = { app, startServer, closeServer, setPort };

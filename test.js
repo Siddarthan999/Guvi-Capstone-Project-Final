@@ -1,9 +1,11 @@
 const request = require('supertest');
-const { app, startServer, closeServer } = require('./index.js');
+const { app, startServer, closeServer, setPort } = require('./index.js');
 
 describe('API Tests', function() {
-    
+
     before(function(done) {
+        // Set the server port for testing to avoid conflicts with production server
+        setPort(3001);  // Use a test port, e.g., 3001
         startServer(done);
     });
 
@@ -32,7 +34,10 @@ describe('API Tests', function() {
     });
 
     after(function(done) {
-        closeServer(done);
+        closeServer(() => {
+            done();
+            process.exit(0);  // Ensure process exits cleanly after tests
+        });
     });
 
     this.timeout(5000);
