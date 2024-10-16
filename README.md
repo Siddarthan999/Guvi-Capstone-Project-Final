@@ -5,6 +5,7 @@ CI/CD Pipeline for a Node.js Web Application
 Set up a fully automated Continuous Integration and Continuous Deployment (CI/CD) pipeline to test, build, and deploy a Node.js web application to a container orchestration platform.
 
 # Key Tools
+* **Web Application:** Node.js
 * **Version Control:** Git, GitHub
 * **CI/CD:** Jenkins or GitHub Actions
 * **Containerization:** Docker
@@ -25,6 +26,7 @@ docker push siddarthan5/capstone-node-project:latest
 minikube start
 docker context use default
 minikube status
+minikube dashboard
 kubectl apply -f deployment.yml
 kubectl apply -f service.yml
 kubectl get pods
