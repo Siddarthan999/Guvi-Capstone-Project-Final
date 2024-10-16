@@ -14,7 +14,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/ShafeeqAhamedS/guvi-capstone.git']])
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Siddarthan999/Guvi-Capstone-Project-Final.git']])
             }
         }
         stage('Build App') {
@@ -35,9 +35,15 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    bat """
-                        docker build -t ${DOCKER_IMAGE} .
-                    """
+                    try {
+                        bat """
+                            docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} .
+                        """
+                    } catch (Exception e) {
+                        echo "Docker image build failed: ${e.message}"
+                        currentBuild.result = 'FAILURE'
+                        error("Stopping pipeline due to Docker build failure.")
+                    }
                 }
             }
         }
@@ -52,6 +58,43 @@ pipeline {
                     bat """
                         docker push ${DOCKER_IMAGE}:${DOCKER_TAG}
                     """
+                }
+            }
+        }
+        stage('Deploy to Minikube') {
+            steps {
+                withKubeConfig(caCertificate: '', clusterName: 'minikube', contextName: 'minikube', credentialsId: 'minikube-jenkins-secret', namespace: 'default', restrictKubeConfigAccess: false, serverUrl: 'https://127.0.0.1:62358') {
+                    script {
+                        try {
+                            // Apply the deployment configuration
+                            bat 'kubectl apply -f deployment.yml'
+                            
+                            // Wait for the deployment to be ready
+                            bat 'kubectl rollout status deployment/capstone-node-deployment'
+
+                            // Check if the deployment is running
+                            def deploymentStatus = bat(script: 'kubectl get deployments --no-headers', returnStdout: true).trim()
+                            echo "Deployment status: ${deploymentStatus}"
+        
+                            // Apply the service configuration
+                            bat 'kubectl apply -f service.yml'
+        
+                            // Get the pods status
+                            def podsStatus = bat(script: 'kubectl get pods --no-headers', returnStdout: true).trim()
+                            echo "Pods status: ${podsStatus}"
+        
+                            // Get the service details
+                            def svcDetails = bat(script: 'kubectl get svc --no-headers', returnStdout: true).trim()
+                            echo "Service details: ${svcDetails}"
+
+                            echo 'Visit http://localhost:5000'
+                            
+                        } catch (Exception e) {
+                            echo "Deployment failed: ${e.message}"
+                            currentBuild.result = 'FAILURE'
+                            error("Stopping pipeline due to deployment failure.")
+                        }
+                    }
                 }
             }
         }
