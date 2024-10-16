@@ -35,7 +35,7 @@ describe('API Tests', function() {
 
     describe('GET /test', function() {
         it('respond with test message', function(done) {
-            request(app).get('/test').expect('{ "response": " Test!" }', done);
+            request(app).get('/test').expect('{ "response": " Test, Route!" }', done);
         });
     });
 
