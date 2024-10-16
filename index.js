@@ -17,6 +17,10 @@ app.get('/ready', function (req, res) {
     res.send('{ "response": " Great!, It works!" }');
 });
 
+app.get('/test', function (req, res) {
+    res.send('{ "response": " Test, Route!" }');
+});
+
 let server;
 let port = process.env.PORT || 3000;
 
