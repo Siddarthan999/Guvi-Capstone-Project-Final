@@ -27,15 +27,9 @@ describe('API Tests', function() {
         });
     });
 
-    describe('GET /ready', function() {
-        it('respond with ready message', function(done) {
-            request(app).get('/ready').expect('{ "response": " Great!, It works!" }', done);
-        });
-    });
-
     describe('GET /test', function() {
         it('respond with test message', function(done) {
-            request(app).get('/test').expect('{ "response": " Test, Route!" }', done);
+            request(app).get('/test').expect('{ "response": "Test, Route!" }', done);
         });
     });
 

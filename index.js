@@ -13,12 +13,8 @@ app.get('/greetings', function (req, res) {
     res.send('{ "response": "Welcome, all" }');
 });
 
-app.get('/ready', function (req, res) {
-    res.send('{ "response": " Great!, It works!" }');
-});
-
 app.get('/test', function (req, res) {
-    res.send('{ "response": " Test, Route!" }');
+    res.send('{ "response": "Test, Route!" }');
 });
 
 let server;
