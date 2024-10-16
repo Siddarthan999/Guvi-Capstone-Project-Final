@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: capstone-nodeserver
-        image: siddarthan5/capstone-node-project-kube:latest
+        image: siddarthan5/capstone-node-project-final:latest
         ports:
         - containerPort: 3000
