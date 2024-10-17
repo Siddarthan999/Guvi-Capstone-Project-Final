@@ -50,6 +50,9 @@ kubectl port-forward svc/node-service 5000:5000
 
 # Steps to Install Prometheus
 ```
+choco install kubernetes-helm
+helm version
+
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
 helm install prometheus prometheus-community/prometheus
