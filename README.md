@@ -18,6 +18,8 @@ docker build -t siddarthan5/capstone-node-project .
 docker images
 docker run -d -p 3000:3000 siddarthan5/capstone-node-project
 docker ps
+docker container ls
+docker container stop IdValue
 docker rm -f <container-id>
 docker push siddarthan5/capstone-node-project:latest
 ```
