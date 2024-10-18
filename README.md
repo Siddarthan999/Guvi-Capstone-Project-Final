@@ -37,6 +37,12 @@ kubectl get deployments
 kubectl get pods
 minikube service <service-name>
 
+kubectl get cm || kubectl get configmaps
+kubectl edit cm prometheus-alertmanager || kubectl edit configmap prometheus-alertmanager
+kubectl edit cm prometheus-server
+kubectl get po
+kubectl delete pod prometheus-alertmanager-0
+
 minikube ip
 ```
 # Connect to a Kubernetes Cluster and execute kubectl commands in Jenkins Pipeline
@@ -74,4 +80,5 @@ minikube service grafana-ext
 kubectl port-forward svc/node-service 5000:5000
 kubectl port-forward svc/prometheus-server 5001:80
 kubectl port-forward svc/grafana 5002:80
+kubectl port-forward svc/prometheus-alertmanager 5003:9093
 ```
