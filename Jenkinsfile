@@ -64,7 +64,7 @@ pipeline {
         }
         stage('Deploy to Minikube') {
             steps {
-                withKubeConfig(caCertificate: '', clusterName: 'minikube', contextName: 'minikube', credentialsId: 'minikube-jenkins-secret', namespace: 'default', restrictKubeConfigAccess: false, serverUrl: 'https://127.0.0.1:57277') {
+                withKubeConfig(caCertificate: '', clusterName: 'minikube', contextName: 'minikube', credentialsId: 'minikube-jenkins-secret', namespace: 'default', restrictKubeConfigAccess: false, serverUrl: 'https://127.0.0.1:51099') {
                     script {
                         try {
                             // Apply the deployment configuration
@@ -127,7 +127,7 @@ pipeline {
         }
         failure {
             echo 'One or more stages failed.'
-             withKubeConfig(caCertificate: '', clusterName: 'minikube', contextName: 'minikube', credentialsId: 'minikube-jenkins-secret', namespace: 'default', restrictKubeConfigAccess: false, serverUrl: 'https://127.0.0.1:57277') {
+             withKubeConfig(caCertificate: '', clusterName: 'minikube', contextName: 'minikube', credentialsId: 'minikube-jenkins-secret', namespace: 'default', restrictKubeConfigAccess: false, serverUrl: 'https://127.0.0.1:51099') {
                     script {
                         echo "Rolling back deployment..."
                         bat "kubectl rollout undo deployments/${DEPLOYMENT_NAME}"
